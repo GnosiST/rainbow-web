@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --brightness: 1;
+  --filter: none;
+  --safe-padding: 20px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 全局滤镜效果容器 */
+.app-container {
+  filter: brightness(var(--brightness)) var(--filter);
+  min-height: 100vh;
+}
