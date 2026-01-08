@@ -2,14 +2,18 @@
 
 ## Introduction
 
-M4 里程碑：实现全局外观设置功能，包括背景主题、亮度、滤镜和屏幕区域设置，支持持久化和重置。
+M4 里程碑：实现全局外观设置功能，包括桌面风格切换（macOS/Windows/插画风格）、背景主题、亮度、滤镜、屏幕区域设置、屏保设置，支持持久化和重置。
 
 ## Glossary
 
 - **UI_Store**: Zustand store，管理全局外观状态
+- **Theme_Store**: Zustand store，管理桌面风格状态（macOS/Windows/Illustration）
 - **Settings_Window**: 设置窗口，提供外观调整界面
-- **Theme**: 背景主题，定义桌面背景样式
+- **Desktop_Theme**: 桌面风格，定义整体 UI 风格（macOS/Windows/Illustration）
+- **Background_Theme**: 背景主题，定义桌面背景样式
+- **Illustration_Theme**: 插画风格主题，手绘风格的图标和背景
 - **Filter**: 滤镜效果，应用于整个页面
+- **Screensaver**: 屏保，用户空闲时显示的动画效果
 
 ## Requirements
 
@@ -19,10 +23,23 @@ M4 里程碑：实现全局外观设置功能，包括背景主题、亮度、�
 
 #### Acceptance Criteria
 
-1. THE UI_Store SHALL 维护 theme 字段存储当前主题
-2. THE UI_Store SHALL 维护 brightness 字段存储亮度值（0.7-1.3）
-3. THE UI_Store SHALL 维护 filter 字段存储滤镜类型
-4. THE UI_Store SHALL 维护 screenArea 字段存储屏幕区域模式
+1. THE Theme_Store SHALL 维护 desktopTheme 字段存储当前桌面风格（macos/windows）
+2. THE UI_Store SHALL 维护 backgroundTheme 字段存储当前背景主题
+3. THE UI_Store SHALL 维护 brightness 字段存储亮度值（0.7-1.3）
+4. THE UI_Store SHALL 维护 filter 字段存储滤镜类型
+5. THE UI_Store SHALL 维护 screenArea 字段存储屏幕区域模式
+
+### Requirement 1.5: 桌面风格切换（已实现）
+
+**User Story:** 作为访客，我希望能够在 macOS 和 Windows 风格之间切换，以便获得熟悉的桌面体验。
+
+#### Acceptance Criteria
+
+1. THE Theme_Store SHALL 支持 macos 和 windows 两种桌面风格
+2. WHEN 切换到 macos 风格 THEN THE Desktop_Shell SHALL 显示顶部菜单栏和底部 Dock
+3. WHEN 切换到 windows 风格 THEN THE Desktop_Shell SHALL 显示底部任务栏
+4. WHEN 切换风格 THEN THE Desktop_Icons SHALL 调整位置和样式
+5. THE Theme_Store SHALL 将桌面风格持久化到 localStorage
 
 ### Requirement 2: 状态持久化
 
@@ -83,3 +100,36 @@ M4 里程碑：实现全局外观设置功能，包括背景主题、亮度、�
 1. THE UI_Store SHALL 支持 safe 和 full 两种屏幕区域模式
 2. WHEN screenArea=safe THEN THE Window_Manager SHALL 在最大化时保留边距
 3. THE Settings_Window SHALL 提供屏幕区域切换选项
+
+
+### Requirement 8: 插画风格主题
+
+**User Story:** 作为访客，我希望能够选择插画风格的主题，以便获得独特的手绘视觉体验。
+
+#### Acceptance Criteria
+
+1. THE Theme_Store SHALL 支持 illustration 类型的桌面风格
+2. THE Illustration_Theme SHALL 提供自定义图标组件
+3. THE Illustration_Theme SHALL 提供自定义背景元素
+4. WHEN 切换到插画主题 THEN THE Desktop_Shell SHALL 使用对应的图标和背景
+5. THE Settings_Window SHALL 提供插画主题选择器
+
+### Requirement 9: 屏保设置
+
+**User Story:** 作为访客，我希望能够配置屏保效果，以便在空闲时看到有趣的动画。
+
+#### Acceptance Criteria
+
+1. THE Settings_Window SHALL 提供屏保开关
+2. THE Settings_Window SHALL 提供空闲时间设置（30秒-5分钟）
+3. THE Settings_Window SHALL 提供屏保类型选择（漂浮图标/时钟/粒子等）
+4. THE UI_Store SHALL 持久化屏保设置
+
+### Requirement 10: 加载屏幕设置
+
+**User Story:** 作为访客，我希望能够配置加载屏幕行为，以便控制是否在刷新时显示。
+
+#### Acceptance Criteria
+
+1. THE Settings_Window SHALL 提供"刷新时显示加载屏幕"开关
+2. THE UI_Store SHALL 持久化加载屏幕设置

@@ -2,7 +2,24 @@
 
 ## Overview
 
-Settings 功能提供全局外观定制能力，通过 CSS 变量和 data 属性实现主题、亮度、滤镜的即时切换，使用 Zustand persist 中间件实现状态持久化。
+Settings 功能提供全局外观定制能力，包括桌面风格切换（macOS/Windows）、背景主题、亮度、滤镜的即时切换。使用 Zustand persist 中间件实现状态持久化。
+
+## 已实现功能
+
+### 桌面风格切换（M1 扩展）
+
+已实现 macOS 和 Windows 两种桌面风格的切换：
+
+**文件结构：**
+- `lib/stores/theme-store.ts` - 桌面风格状态管理
+- `lib/theme-config.ts` - 主题配置定义
+- `components/desktop/Taskbar.tsx` - Windows 风格任务栏
+- `components/desktop/Dock.tsx` - macOS 风格 Dock
+- `components/desktop/Topbar.tsx` - macOS 风格顶栏
+
+**切换方式：**
+- macOS 风格：点击顶栏右侧的 🍎 图标
+- Windows 风格：点击任务栏右侧的 🍎 图标
 
 ## Architecture
 
@@ -35,6 +52,34 @@ Settings 功能提供全局外观定制能力，通过 CSS 变量和 data 属性
 ```
 
 ## Components and Interfaces
+
+### 0. Theme Store（已实现）
+
+```typescript
+// lib/stores/theme-store.ts
+type DesktopTheme = "macos" | "windows";
+
+interface ThemeState {
+  theme: DesktopTheme;
+  setTheme: (theme: DesktopTheme) => void;
+  toggleTheme: () => void;
+}
+```
+
+### 0.1 Theme Config（已实现）
+
+```typescript
+// lib/theme-config.ts
+interface ThemeConfig {
+  name: string;
+  background: string;
+  topbar: { height, bg, textColor, position };
+  dock: { show, position, bg, iconSize, borderRadius };
+  taskbar: { show, height, bg };
+  desktopIcons: { position, iconBg, labelBg };
+  window: { titleBarPosition, borderRadius };
+}
+```
 
 ### 1. UI Store
 

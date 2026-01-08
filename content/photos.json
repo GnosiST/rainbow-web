@@ -1,0 +1,76 @@
+{
+  "photos": [
+    {
+      "id": "photo-001",
+      "title": "Sunset Dreams",
+      "year": 2024,
+      "dimensions": "60x80cm",
+      "medium": "Digital Print on Canvas",
+      "image": "/images/photos/sunset-dreams.jpg",
+      "thumbnail": "/images/photos/sunset-dreams-thumb.jpg",
+      "shopUrl": "https://example.com/shop/sunset-dreams",
+      "price": "$299",
+      "available": true
+    },
+    {
+      "id": "photo-002",
+      "title": "Urban Geometry",
+      "year": 2024,
+      "dimensions": "50x70cm",
+      "medium": "Giclée Print",
+      "image": "/images/photos/urban-geometry.jpg",
+      "thumbnail": "/images/photos/urban-geometry-thumb.jpg",
+      "shopUrl": "https://example.com/shop/urban-geometry",
+      "price": "$249",
+      "available": true
+    },
+    {
+      "id": "photo-003",
+      "title": "Abstract Flow",
+      "year": 2023,
+      "dimensions": "40x60cm",
+      "medium": "Digital Print",
+      "image": "/images/photos/abstract-flow.jpg",
+      "thumbnail": "/images/photos/abstract-flow-thumb.jpg",
+      "shopUrl": "https://example.com/shop/abstract-flow",
+      "price": "$199",
+      "available": true
+    },
+    {
+      "id": "photo-004",
+      "title": "Nature's Pattern",
+      "year": 2023,
+      "dimensions": "70x100cm",
+      "medium": "Fine Art Print",
+      "image": "/images/photos/natures-pattern.jpg",
+      "thumbnail": "/images/photos/natures-pattern-thumb.jpg",
+      "shopUrl": null,
+      "price": "$399",
+      "available": false
+    },
+    {
+      "id": "photo-005",
+      "title": "City Lights",
+      "year": 2024,
+      "dimensions": "50x50cm",
+      "medium": "Acrylic Print",
+      "image": "/images/photos/city-lights.jpg",
+      "thumbnail": "/images/photos/city-lights-thumb.jpg",
+      "shopUrl": "https://example.com/shop/city-lights",
+      "price": "$279",
+      "available": true
+    },
+    {
+      "id": "photo-006",
+      "title": "Minimalist Series #1",
+      "year": 2024,
+      "dimensions": "30x40cm",
+      "medium": "Digital Print",
+      "image": "/images/photos/minimalist-1.jpg",
+      "thumbnail": "/images/photos/minimalist-1-thumb.jpg",
+      "shopUrl": "https://example.com/shop/minimalist-1",
+      "price": "$149",
+      "available": true
+    }
+  ]
+}

@@ -59,7 +59,7 @@ M2 里程碑：实现窗口管理器核心功能，包括多窗口管理、拖�
 3. WHEN 点击窗口任意区域 THEN THE Window_Manager SHALL 调用 focus(id)
 4. WHEN 窗口聚焦 THEN THE Window_Frame SHALL 显示聚焦状态的视觉效果（阴影变化）
 
-### Requirement 5: 窗口拖拽
+### Requirement 5: 窗口拖拽移动
 
 **User Story:** 作为访客，我希望能够拖拽移动窗口，以便自由安排窗口位置。
 
@@ -70,6 +70,21 @@ M2 里程碑：实现窗口管理器核心功能，包括多窗口管理、拖�
 3. WHEN 释放鼠标 THEN THE Window_Manager SHALL 结束拖拽模式
 4. THE Window_Manager SHALL 限制窗口位置使其不会完全拖出可视区域（clamp）
 5. THE Window_Manager SHALL 确保拖拽过程流畅无卡顿
+
+### Requirement 8: 窗口调整大小
+
+**User Story:** 作为访客，我希望能够通过拖拽窗口边缘来调整窗口大小，以便根据内容需要自由调整窗口尺寸。
+
+#### Acceptance Criteria
+
+1. WHEN 鼠标悬停在窗口边缘或角落 THEN THE Window_Frame SHALL 显示对应方向的调整光标
+2. WHEN 在窗口边缘按下鼠标 THEN THE Window_Manager SHALL 开始调整大小模式
+3. WHILE 调整大小模式 WHEN 移动鼠标 THEN THE Window_Manager SHALL 更新窗口尺寸
+4. WHEN 释放鼠标 THEN THE Window_Manager SHALL 结束调整大小模式
+5. THE Window_Manager SHALL 限制窗口最小尺寸为 200x150 像素
+6. THE Window_Manager SHALL 限制窗口最大尺寸不超过屏幕尺寸
+7. WHEN 窗口处于最大化状态 THEN THE Window_Frame SHALL 禁用调整大小功能
+8. THE Window_Frame SHALL 支持 8 个方向的调整（上、下、左、右、四个角落）
 
 ### Requirement 6: 窗口最大化
 

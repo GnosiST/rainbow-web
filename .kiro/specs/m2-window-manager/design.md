@@ -204,6 +204,18 @@ export const windowDefaults: Record<WindowType, { title: string; rect: Rect }> =
 
 **Validates: Requirements 5.4**
 
+### Property 6: 窗口尺寸约束
+
+*For any* 调整大小操作后的窗口尺寸，宽度应 >= 200px，高度应 >= 150px。
+
+**Validates: Requirements 8.5**
+
+### Property 7: 最大化状态禁用调整
+
+*For any* 处于最大化状态的窗口，调整大小操作应被忽略。
+
+**Validates: Requirements 8.7**
+
 ## Error Handling
 
 | 场景 | 处理方式 |

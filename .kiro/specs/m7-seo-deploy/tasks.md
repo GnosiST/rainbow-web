@@ -1,4 +1,4 @@
-# Implementation Plan: M6 SEO、性能、测试、上线
+# Implementation Plan: M7 SEO、性能、测试、上线
 
 ## Overview
 

@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-01-07T11:53:32.231Z",
+  "count": 6,
+  "projects": [
+    {
+      "slug": "portfolio-website",
+      "title": "Portfolio Website",
+      "year": 2024,
+      "client": "Personal Project",
+      "tags": [
+        "Web Design",
+        "Next.js",
+        "TypeScript"
+      ],
+      "cover": "/images/projects/portfolio/cover.jpg",
+      "images": [
+        "/images/projects/portfolio/01.jpg",
+        "/images/projects/portfolio/02.jpg",
+        "/images/projects/portfolio/03.jpg"
+      ],
+      "featured": true,
+      "order": 1,
+      "excerpt": "A modern portfolio website built with Next.js and TypeScript, featuring a unique desktop OS-style interface.\n\n\n\nThis project showcases a creative approach to portfolio design, mimicking the look and f..."
+    },
+    {
+      "slug": "mobile-app-design",
+      "title": "Mobile App Design",
+      "year": 2024,
+      "client": "Tech Startup",
+      "tags": [
+        "UI/UX",
+        "Mobile",
+        "Figma"
+      ],
+      "cover": "/images/projects/mobile-app/cover.jpg",
+      "images": [
+        "/images/projects/mobile-app/01.jpg",
+        "/images/projects/mobile-app/02.jpg",
+        "/images/projects/mobile-app/03.jpg",
+        "/images/projects/mobile-app/04.jpg"
+      ],
+      "featured": true,
+      "order": 2,
+      "excerpt": "A comprehensive mobile app design project for a tech startup, focusing on user experience and modern aesthetics.\n\n\n\nThe client needed a complete redesign of their mobile application to improve user en..."
+    },
+    {
+      "slug": "brand-identity",
+      "title": "Brand Identity System",
+      "year": 2023,
+      "client": "Creative Agency",
+      "tags": [
+        "Branding",
+        "Logo Design",
+        "Visual Identity"
+      ],
+      "cover": "/images/projects/brand/cover.jpg",
+      "images": [
+        "/images/projects/brand/01.jpg",
+        "/images/projects/brand/02.jpg",
+        "/images/projects/brand/03.jpg"
+      ],
+      "featured": true,
+      "order": 3,
+      "excerpt": "A complete brand identity system for a creative agency, including logo, color palette, typography, and brand guidelines.\n\n\n\n- Logo design and variations\n- Color palette definition\n- Typography selecti..."
+    },
+    {
+      "slug": "e-commerce-platform",
+      "title": "E-Commerce Platform",
+      "year": 2023,
+      "client": "Retail Company",
+      "tags": [
+        "Web Development",
+        "E-Commerce",
+        "React"
+      ],
+      "cover": "/images/projects/ecommerce/cover.jpg",
+      "images": [
+        "/images/projects/ecommerce/01.jpg",
+        "/images/projects/ecommerce/02.jpg",
+        "/images/projects/ecommerce/03.jpg",
+        "/images/projects/ecommerce/04.jpg",
+        "/images/projects/ecommerce/05.jpg"
+      ],
+      "featured": false,
+      "order": 4,
+      "excerpt": "A full-featured e-commerce platform built with React and Node.js, featuring a modern shopping experience.\n\n\n\n- Product catalog with filtering and search\n- Shopping cart and checkout flow\n- User authen..."
+    },
+    {
+      "slug": "illustration-series",
+      "title": "Illustration Series",
+      "year": 2023,
+      "client": "Publishing House",
+      "tags": [
+        "Illustration",
+        "Digital Art",
+        "Editorial"
+      ],
+      "cover": "/images/projects/illustration/cover.jpg",
+      "images": [
+        "/images/projects/illustration/01.jpg",
+        "/images/projects/illustration/02.jpg",
+        "/images/projects/illustration/03.jpg",
+        "/images/projects/illustration/04.jpg"
+      ],
+      "featured": true,
+      "order": 5,
+      "excerpt": "A series of editorial illustrations created for a publishing house's quarterly magazine.\n\n\n\nCreated 12 unique illustrations for the magazine's feature articles, covering topics from technology to life..."
+    },
+    {
+      "slug": "dashboard-ui",
+      "title": "Analytics Dashboard",
+      "year": 2024,
+      "client": "SaaS Company",
+      "tags": [
+        "Dashboard",
+        "Data Visualization",
+        "UI Design"
+      ],
+      "cover": "/images/projects/dashboard/cover.jpg",
+      "images": [
+        "/images/projects/dashboard/01.jpg",
+        "/images/projects/dashboard/02.jpg",
+        "/images/projects/dashboard/03.jpg"
+      ],
+      "featured": false,
+      "order": 6,
+      "excerpt": "A comprehensive analytics dashboard design for a SaaS company, featuring real-time data visualization and intuitive navigation.\n\n\n\nDesign a dashboard that presents complex data in an easily digestible..."
+    }
+  ]
+}

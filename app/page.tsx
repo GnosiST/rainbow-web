@@ -1,11 +1,40 @@
+"use client";
+
+import { Topbar } from "@/components/desktop/Topbar";
+import { Desktop } from "@/components/desktop/Desktop";
+import { LoadingScreen } from "@/components/loading/LoadingScreen";
+import { Screensaver } from "@/components/screensaver/Screensaver";
+import { UIProvider } from "@/components/providers/UIProvider";
+import { DeviceProvider } from "@/components/providers/DeviceProvider";
+import { MobileShell } from "@/components/mobile/MobileShell";
+import { useIsMobile, useIsHydrated } from "@/lib/stores/device-store";
+
+function AppContent() {
+  const isMobile = useIsMobile();
+  const isHydrated = useIsHydrated();
+
+  // 移动端视图
+  if (isHydrated && isMobile) {
+    return <MobileShell />;
+  }
+
+  // 桌面端视图（也是服务端渲染的默认视图）
+  return (
+    <>
+      <LoadingScreen brandName="Rainbow" showProgress={true} />
+      <Topbar />
+      <Desktop />
+      <Screensaver />
+    </>
+  );
+}
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Rainbow Portfolio</h1>
-        <p className="text-gray-400">桌面 OS 风格作品集网站</p>
-        <p className="text-sm text-gray-500 mt-8">M0 - 工程骨架已就绪</p>
-      </div>
-    </main>
+    <UIProvider>
+      <DeviceProvider>
+        <AppContent />
+      </DeviceProvider>
+    </UIProvider>
   );
 }
