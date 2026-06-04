@@ -1,106 +1,141 @@
 # Rainbow Web
 
-Rainbow Web 是一个桌面 OS 风格的作品集网站。项目使用 Next.js 构建，通过窗口化交互展示个人介绍、项目、照片画廊、幻灯片和外观设置，并提供移动端适配视图。
+Rainbow Web is an open-source portfolio starter that turns a personal creative site into an interactive desktop OS. Visitors can open draggable windows, browse MDX-powered projects, explore a photo gallery, switch visual themes, and get an AI-generated guide through the portfolio.
 
-## 功能
+The project is built for designers, developers, and independent creators who want a self-hosted portfolio that feels more like an interface than a static landing page.
 
-- 桌面壳：顶部菜单栏、桌面图标、Dock 和窗口层。
-- 窗口管理：打开、关闭、聚焦置顶、拖拽移动、最大化和还原。
-- 项目展示：项目内容由 `content/projects` 中的 MDX 文件驱动。
-- 项目索引：构建前自动生成 `public/data/projects.index.json`。
-- 照片画廊：照片数据由 `content/photos.json` 同步到公开数据目录。
-- 外观设置：支持主题、亮度、滤镜和屏幕区域设置，并持久化到本地。
-- 移动端视图：根据设备宽度切换到移动端 Shell。
-- 自建部署：提供 Docker、Docker Compose、Nginx 反向代理和健康检查接口。
+## Highlights
 
-## 技术栈
+- **Desktop-style experience**: top bar, desktop icons, dock/taskbar, stacked windows, drag movement, focus, maximize, and close.
+- **Mobile-ready shell**: responsive mobile views for About, Projects, Photos, and Settings.
+- **Content-driven projects**: project entries live in `content/projects` as MDX and are indexed at build time.
+- **Photo gallery data**: gallery entries are maintained in `content/photos.json` and exported to public data.
+- **AI portfolio guide**: `/api/ai/project-guide` can use OpenAI to recommend a visitor path through the project list.
+- **Graceful no-key mode**: the AI guide falls back to deterministic local recommendations when `OPENAI_API_KEY` is not configured.
+- **Self-hostable deployment**: Docker, Docker Compose, Nginx reverse proxy, and `/api/health` are included.
 
-- Next.js 14
+## Why This Is Open Source
+
+Most portfolio sites are either static galleries or marketing pages. Rainbow Web explores a different pattern: a personal site as a small operating environment. The goal is to make the codebase reusable for other creators while keeping the content layer simple enough to maintain with Git.
+
+The current repository is early-stage and intentionally small. The focus is maintainability, security, documentation quality, and practical deployment rather than inflated project metrics.
+
+## Tech Stack
+
+- Next.js 14 App Router
 - React 18
 - TypeScript
 - Tailwind CSS
 - Framer Motion
 - Zustand
-- Docker / Nginx
+- OpenAI Responses API
+- Docker and Nginx
 
-## 目录结构
+## Project Structure
 
 ```text
-app/                  Next.js App Router 页面与接口
-components/           桌面、移动端、窗口和内容组件
-content/              项目 MDX 与照片数据源
-lib/                  状态管理、主题配置和类型定义
-public/data/          构建生成的公开索引数据
-scripts/              构建辅助脚本
-nginx/                Nginx 配置
+app/                  Next.js routes, layout, and API endpoints
+components/           Desktop, mobile, window, and content UI components
+content/              MDX project files and photo source data
+lib/                  Stores, theme configuration, and shared types
+public/data/          Build-generated public indexes
+scripts/              Build-time indexing scripts
+nginx/                Nginx reverse proxy configuration
 ```
 
-## 本地开发
+## Getting Started
 
-安装依赖：
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-启动开发服务：
+Create a local environment file if you want AI recommendations:
+
+```bash
+cp .env.example .env.local
+```
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-访问：
+Open:
 
 ```text
 http://localhost:3000
 ```
 
-## 常用命令
+## Environment Variables
 
-```bash
-npm run dev          # 启动开发服务
-npm run build:index  # 生成项目与照片索引
-npm run build        # 生产构建
-npm run start        # 启动生产服务
+```text
+OPENAI_API_KEY       Optional. Enables generated AI portfolio guide responses.
+OPENAI_MODEL         Optional. Defaults to gpt-4.1-mini.
 ```
 
-`npm run build` 会先执行 `scripts/build-index.js`，自动生成公开数据文件。
+If `OPENAI_API_KEY` is missing, the site still works. The AI Guide panel shows a local fallback recommendation instead of calling OpenAI.
 
-## 内容维护
+## Common Commands
 
-新增或修改项目：
+```bash
+npm run dev          # Start local development
+npm run build:index  # Generate project and photo indexes
+npm run build        # Build for production
+npm run start        # Start the production server
+npm run lint         # Run Next.js lint checks
+```
 
-1. 在 `content/projects` 中添加或编辑 MDX 文件。
-2. 确保 frontmatter 中包含项目列表和详情页需要的字段。
-3. 运行 `npm run build:index` 或直接运行 `npm run build` 生成最新索引。
+`npm run build` automatically runs `scripts/build-index.js` before building the Next.js app.
 
-更新照片画廊：
+## Content Workflow
 
-1. 编辑 `content/photos.json`。
-2. 运行 `npm run build:index` 同步到 `public/data/photos.json`。
+Add or edit projects:
 
-## 生产部署
+1. Create or update an MDX file in `content/projects`.
+2. Keep the frontmatter fields aligned with `lib/types/project.ts`.
+3. Run `npm run build:index` or `npm run build`.
 
-构建并启动服务：
+Update the photo gallery:
+
+1. Edit `content/photos.json`.
+2. Run `npm run build:index` to sync `public/data/photos.json`.
+
+## AI Guide
+
+The Projects window includes an AI Guide panel. It requests `/api/ai/project-guide`, which reads the generated project index and asks OpenAI for a concise visitor recommendation.
+
+Design constraints:
+
+- The prompt only uses public project metadata from this repository.
+- The route does not store visitor input.
+- The route is dynamic so production deployments read the current environment variables.
+- API failures return a normal fallback response instead of breaking the page.
+
+## Production Deployment
+
+Build and start with Docker Compose:
 
 ```bash
 docker compose build
 docker compose up -d
 ```
 
-查看服务日志：
+Check logs:
 
 ```bash
 docker compose logs -f
 ```
 
-健康检查：
+Health check:
 
 ```bash
 curl http://localhost/api/health
 ```
 
-更新部署：
+Update an existing deployment:
 
 ```bash
 git pull
@@ -108,21 +143,48 @@ docker compose build
 docker compose up -d
 ```
 
-更多部署说明见 `DEPLOY.md`。
+See `DEPLOY.md` for more deployment notes.
 
-## 版本同步
+## Security
 
-当前仓库远端为：
+Please report security issues privately. See `SECURITY.md`.
+
+The current security focus areas are:
+
+- dependency updates
+- Docker and Nginx deployment hardening
+- safe handling of OpenAI API keys
+- clear fallback behavior when AI services are unavailable
+- review of public content indexing and external links
+
+## Roadmap
+
+- Add project SEO landing pages at `/p/[slug]`.
+- Add image optimization workflows for real project assets.
+- Add automated checks for project MDX frontmatter.
+- Add GitHub Actions for build and lint validation.
+- Expand the AI Guide into optional project summaries and content QA helpers.
+- Improve accessibility coverage for window controls and mobile navigation.
+
+## Contributing
+
+Contributions are welcome while the project is still small and easy to understand. Start with `CONTRIBUTING.md` for local setup, issue scope, and pull request expectations.
+
+## Repository
 
 ```text
 https://github.com/GnosiST/rainbow-web.git
 ```
 
-检查本地与远端版本：
+Check whether local and remote are aligned:
 
 ```bash
 git fetch origin
 git status --short --branch
 ```
 
-如果显示 `main...origin/main` 且没有新增、修改或删除文件，本地和远端当前分支就是同步状态。
+If the branch shows no ahead/behind count and there are no changed files, the local checkout is aligned with the remote branch.
+
+## License
+
+MIT. See `LICENSE`.

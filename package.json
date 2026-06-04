@@ -1,7 +1,13 @@
 {
   "name": "rainbow-web",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Open-source desktop OS style portfolio starter built with Next.js.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GnosiST/rainbow-web.git"
+  },
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/build-index.js",
