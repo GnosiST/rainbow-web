@@ -1,4 +1,34 @@
-# Rainbow Web
+<p align="center">
+  <img src="./docs/readme-banner.svg" alt="Rainbow Web - Desktop OS Portfolio Starter" width="100%" />
+</p>
+
+<h1 align="center">Rainbow Web</h1>
+
+<p align="center">
+  <strong>Open-source desktop OS portfolio starter built with Next.js, AI guide, and text-to-image preview tools.</strong>
+</p>
+
+<p align="center">
+  <a href="./REQUIREMENTS.md"><img alt="Docs" src="https://img.shields.io/badge/docs-requirements-FFD02E?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./DESIGN.md"><img alt="Design" src="https://img.shields.io/badge/design-architecture-54D6A7?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./TASKS.md"><img alt="Tasks" src="https://img.shields.io/badge/tasks-roadmap-6AA8FF?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./DEPLOYMENT.md"><img alt="Deployment" src="https://img.shields.io/badge/deploy-docker-FF6F61?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./CONTRIBUTING.md"><img alt="Contributing" src="https://img.shields.io/badge/contributing-guide-B86BFF?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-54B000?style=for-the-badge&labelColor=1B2433"></a>
+  <a href="./SECURITY.md"><img alt="Security" src="https://img.shields.io/badge/security-policy-EA3E52?style=for-the-badge&labelColor=1B2433"></a>
+</p>
+
+<p align="center">
+  <a href="./README.md">English</a>
+  ·
+  <a href="./REQUIREMENTS.zh-CN.md">中文需求</a>
+  ·
+  <a href="./DESIGN.zh-CN.md">中文设计</a>
+  ·
+  <a href="./TASKS.zh-CN.md">中文任务</a>
+  ·
+  <a href="./DEPLOYMENT.zh-CN.md">中文部署</a>
+</p>
 
 Rainbow Web is an open-source portfolio starter that turns a personal creative site into an interactive desktop OS. Visitors can open draggable windows, browse MDX-powered projects, explore a photo gallery, switch visual themes, and get an AI-generated guide through the portfolio.
 
