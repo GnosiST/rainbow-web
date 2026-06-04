@@ -4,9 +4,19 @@ import React, { useEffect, useState } from "react";
 import { useWindowStore } from "@/lib/stores/window-store";
 import { Project, ProjectsIndex } from "@/lib/types/project";
 
+interface ProjectGuideResponse {
+  guide: string;
+  source: "openai" | "fallback";
+  error?: string;
+}
+
 export function ProjectsWindow() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [guide, setGuide] = useState("");
+  const [guideSource, setGuideSource] = useState<"openai" | "fallback" | null>(null);
+  const [guideLoading, setGuideLoading] = useState(false);
+  const [guideError, setGuideError] = useState("");
   const { open } = useWindowStore();
 
   useEffect(() => {
@@ -21,6 +31,36 @@ export function ProjectsWindow() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    if (loading || projects.length === 0) return;
+
+    let cancelled = false;
+    setGuideLoading(true);
+
+    fetch("/api/ai/project-guide")
+      .then((res) => res.json())
+      .then((data: ProjectGuideResponse) => {
+        if (cancelled) return;
+        setGuide(data.guide);
+        setGuideSource(data.source);
+        setGuideError(data.error || "");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error("Failed to load AI guide:", err);
+        setGuideError("AI guide is temporarily unavailable.");
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setGuideLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [loading, projects.length]);
 
   const handleProjectClick = (project: Project) => {
     open("project", { 
@@ -40,6 +80,13 @@ export function ProjectsWindow() {
 
   return (
     <div className="w-full h-full p-4 overflow-auto">
+      <AIGuideCard
+        guide={guide}
+        source={guideSource}
+        loading={guideLoading}
+        error={guideError}
+      />
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {projects.map((project) => (
           <ProjectCard
@@ -50,6 +97,45 @@ export function ProjectsWindow() {
         ))}
       </div>
     </div>
+  );
+}
+
+interface AIGuideCardProps {
+  guide: string;
+  source: "openai" | "fallback" | null;
+  loading: boolean;
+  error: string;
+}
+
+function AIGuideCard({ guide, source, loading, error }: AIGuideCardProps) {
+  return (
+    <section className="mb-4 rounded-lg border border-white/10 bg-white/[0.06] p-4">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <div className="text-xs uppercase tracking-[0.2em] text-blue-300/80">
+            AI Guide
+          </div>
+          <h2 className="mt-1 text-sm font-medium text-white/90">
+            Curated path through the portfolio
+          </h2>
+        </div>
+        {source && (
+          <span className="shrink-0 rounded-full bg-white/10 px-2 py-1 text-xs text-white/50">
+            {source === "openai" ? "Generated" : "Fallback"}
+          </span>
+        )}
+      </div>
+
+      <p className="mt-3 text-sm leading-6 text-white/70">
+        {loading ? "Generating a project guide..." : guide || "Preparing guide..."}
+      </p>
+
+      {error && (
+        <p className="mt-2 text-xs text-yellow-200/70">
+          {error}
+        </p>
+      )}
+    </section>
   );
 }
 
