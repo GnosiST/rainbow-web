@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = new URL("https://github.com/GnosiST/rainbow-web");
+
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: "Rainbow Web",
     template: "%s | Rainbow Web",
@@ -17,10 +20,14 @@ export const metadata: Metadata = {
     "creative website",
   ],
   authors: [{ name: "GnosiST" }],
+  alternates: {
+    canonical: siteUrl,
+  },
   openGraph: {
     title: "Rainbow Web",
     description:
       "An open-source desktop OS style portfolio starter built with Next.js.",
+    url: siteUrl,
     type: "website",
     locale: "zh_CN",
     siteName: "Rainbow Web",
@@ -30,6 +37,7 @@ export const metadata: Metadata = {
     title: "Rainbow Web",
     description:
       "Open-source desktop OS style portfolio starter built with Next.js.",
+    site: "@github",
   },
   robots: {
     index: true,
