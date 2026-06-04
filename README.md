@@ -159,7 +159,14 @@ docker compose build
 docker compose up -d
 ```
 
-See `DEPLOY.md` for more deployment notes.
+See `DEPLOYMENT.md` for more deployment notes.
+
+## Documentation
+
+- `REQUIREMENTS.md` / `REQUIREMENTS.zh-CN.md`
+- `DESIGN.md` / `DESIGN.zh-CN.md`
+- `TASKS.md` / `TASKS.zh-CN.md`
+- `DEPLOYMENT.md` / `DEPLOYMENT.zh-CN.md`
 
 ## Security
 

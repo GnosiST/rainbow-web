@@ -1,4 +1,4 @@
-# 任务.md（可直接导入项目管理工具）
+# TASKS.zh-CN.md（中文任务清单）
 
 ## 0. 里程碑（Milestones）
 - M0：工程与部署骨架跑通（本地 + 服务器）
@@ -8,6 +8,8 @@
 - M4：Settings 完成（主题/亮度/滤镜/持久化/reset）
 - M5：Slideshow + Photos/Gallery 完成
 - M6：SEO + 性能优化 + 测试 + 上线验收
+- M7：AI 辅助内容工具（AI Guide + Image Studio）
+- M8：开源维护与安全自动化（README/CI/audit/security）
 
 ---
 
@@ -181,6 +183,76 @@ B) 自定义构建脚本
 
 验收：
 - 线上站点稳定可访问；/api/health 可用；日志可追踪
+
+---
+
+## M7：AI 辅助内容工具
+
+### EPIC: AI Guide（已完成）
+- [x] 新增 `/api/ai/project-guide`
+- [x] 使用项目索引生成浏览导览
+- [x] ProjectsWindow 顶部展示 AI Guide
+- [x] 未配置 `OPENAI_API_KEY` 时返回 fallback
+- [x] 路由动态执行，避免构建期静态化
+
+验收：
+- `GET /api/ai/project-guide` 无 key 时返回 fallback JSON
+- Projects 窗口不因 AI 配置缺失而报错
+
+### EPIC: Image Studio（已完成）
+- [x] 新增 `image-studio` WindowType
+- [x] 新增 Image Studio 窗口组件
+- [x] 新增 `/api/ai/image-generate`
+- [x] 接入桌面图标、Dock、Taskbar、插画桌面
+- [x] 支持 prompt 输入、生成中状态、错误状态、图片预览
+- [x] 未配置 `OPENAI_API_KEY` 时显示配置提示
+- [x] 不上传、不落盘、不自动写入 MDX
+
+验收：
+- `POST /api/ai/image-generate` 无 key 时返回配置提示，不返回 500
+- `npm run lint` 通过
+- `npm run build` 中 `/api/ai/image-generate` 显示为 Dynamic
+
+### EPIC: 图生图与资产入库（后续）
+- [ ] 支持上传参考图进行图生图 / 局部编辑
+- [ ] 限制上传格式、大小与数量
+- [ ] 生成图片保存到持久化位置
+- [ ] 记录 prompt、model、source、createdAt 等 metadata
+- [ ] 人工确认后再写入项目内容
+
+验收：
+- 上传与保存链路不暴露 API Key
+- 生成资产可追踪、可回滚
+
+---
+
+## M8：开源维护与安全自动化
+
+### EPIC: OSS Readiness（已完成）
+- [x] 重写 README，说明定位、运行、部署、AI、安全、路线图
+- [x] 新增 CHANGELOG
+- [x] 新增 LICENSE（MIT）
+- [x] 新增 CONTRIBUTING
+- [x] 新增 SECURITY
+- [x] 新增 `.env.example`
+- [x] package.json 补充 description/license/repository，并设置公开包元数据
+
+验收：
+- 新人可通过 README 完成本地启动
+- 环境变量在 README 与 `.env.example` 中同步
+
+### EPIC: CI & Security Checks（已完成）
+- [x] 升级 Next.js / ESLint 到当前安全版本
+- [x] 迁移 ESLint flat config
+- [x] 新增 GitHub Actions CI
+- [x] 新增 issue templates
+- [x] 新增 PR template
+- [x] `npm audit --audit-level=moderate` 清零
+
+验收：
+- `npm run lint` 通过
+- `npm run build` 通过
+- `npm audit --audit-level=moderate` 返回 0 vulnerabilities
 
 ---
 

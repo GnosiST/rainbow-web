@@ -1,4 +1,4 @@
-# 设计.md（架构与详细设计）
+# DESIGN.zh-CN.md（中文架构与详细设计）
 
 ## 1. 总体架构
 - 前端：Next.js App Router + React
@@ -7,7 +7,9 @@
 - 动画：Framer Motion
 - 内容：MDX/Markdown + 索引 JSON（推荐 Contentlayer）
 - 图片：构建期 sharp 生成多尺寸 + Next/Image
+- AI：Next.js API Route 调用 OpenAI，前端只调用站内接口
 - 部署：Docker（Next standalone）+ Nginx 反代 + HTTPS
+- 开源维护：GitHub Actions 执行 lint/build/audit
 
 ## 2. 目录结构（建议）
 .
@@ -15,13 +17,15 @@
 │   ├── page.tsx                  # Desktop
 │   ├── p/[slug]/page.tsx         # 可选 SEO 落地页
 │   ├── api/health/route.ts
+│   ├── api/ai/project-guide/route.ts
+│   ├── api/ai/image-generate/route.ts
 │   └── sitemap.ts                # Next sitemap（或自定义）
 ├── components/
 │   ├── desktop/
 │   ├── windows/
 │   │   ├── WindowFrame.tsx
 │   │   ├── WindowLayer.tsx       # 渲染所有窗口
-│   │   └── apps/                 # About/Projects/Project/Settings/...
+│   │   └── content/              # About/Projects/Project/Settings/ImageStudio...
 │   └── ui/
 ├── stores/
 │   ├── windowStore.ts
@@ -30,13 +34,9 @@
 │   ├── pages/about.mdx
 │   └── projects/*.mdx
 ├── scripts/
-│   ├── build-media.mjs           # sharp 多尺寸生成
-│   └── build-index.mjs           # 生成 projects.index.json
-├── generated/
-│   ├── projects.index.json
-│   └── media-manifest.json
+│   └── build-index.js            # 生成 projects.index.json / photos.json
 ├── public/
-│   └── media/                    # 输出的多尺寸图片
+│   └── data/                     # 构建生成的公开 JSON
 ├── styles/
 │   └── globals.css
 ├── Dockerfile
@@ -68,7 +68,7 @@
 
 ### 4.1 WindowState
 - id: string
-- type: "about" | "projects" | "project" | "photos" | "slideshow" | "settings"
+- type: "about" | "projects" | "project" | "photos" | "slideshow" | "settings" | "image-studio"
 - title: string
 - rect: { x, y, w, h }
 - z: number
@@ -159,7 +159,63 @@ Next/Image 使用：
   - /api/health
   - （可选）Uptime Kuma/Prometheus 后续加
 
-## 10. MinIO 未来升级路径（不影响 MVP）
+## 10. AI 设计
+
+### 10.1 环境变量
+- `OPENAI_API_KEY`：服务端 OpenAI API Key；不传给浏览器。
+- `OPENAI_MODEL`：AI Guide 模型，默认 `gpt-4.1-mini`。
+- `OPENAI_IMAGE_MODEL`：Image Studio 文生图模型，默认 `gpt-image-2`。
+
+### 10.2 AI Guide
+- 路由：`GET /api/ai/project-guide`
+- 输入来源：`public/data/projects.index.json`
+- 处理流程：
+  1. 读取项目索引中的公开元数据。
+  2. 拼接导览 prompt。
+  3. 使用 OpenAI Responses API 生成简短浏览建议。
+  4. 返回 `{ guide, source }`。
+- 失败策略：
+  - 未配置 key：返回本地 fallback。
+  - API 异常：返回 fallback + error 字段。
+  - 路由使用 `dynamic = "force-dynamic"`，避免构建期静态化。
+
+### 10.3 Image Studio
+- 路由：`POST /api/ai/image-generate`
+- 窗口组件：`components/windows/content/ImageStudioWindow.tsx`
+- 输入：
+  - `prompt: string`
+  - 最长 1200 字符
+- 输出：
+  - `{ image: "data:image/png;base64,...", model }`
+  - 或 `{ error }`
+- 处理流程：
+  1. 前端收集 prompt。
+  2. 服务端校验 prompt 和 `OPENAI_API_KEY`。
+  3. 调用 OpenAI Images API `/v1/images/generations`。
+  4. 返回 base64 图片 data URL 供前端预览。
+- 边界：
+  - 不支持图生图。
+  - 不接收文件上传。
+  - 不保存生成文件。
+  - 不自动修改 `content/projects/*.mdx`。
+
+### 10.4 安全边界
+- API Key 仅在服务端读取。
+- AI 错误转为用户可读信息，不返回内部堆栈。
+- Image Studio 第一版仅维护者预览使用，避免公开无限制生图带来的成本和滥用风险。
+
+## 11. 开源维护设计
+- README：面向开源使用者说明定位、运行、部署、AI 能力与安全边界。
+- CHANGELOG：记录 AI Guide、Image Studio、CI/security 等可见变更。
+- CONTRIBUTING：约束 PR 范围、AI 功能边界和验证要求。
+- SECURITY：定义私下漏洞报告路径。
+- GitHub Actions：
+  - `npm ci`
+  - `npm run lint`
+  - `npm run build`
+  - `npm audit --audit-level=moderate`
+
+## 12. MinIO 未来升级路径（不影响 MVP）
 Stage 1（推荐先做）：
 - 原图放 MinIO，本地/CI 拉取原图 -> 生成多尺寸 -> 发布到服务器 public/media
 Stage 2：
