@@ -16,13 +16,13 @@ interface DesktopProps {
 }
 
 export function Desktop({ children }: DesktopProps) {
-  const { theme, illustrationThemeId } = useThemeStore();
+  const { theme } = useThemeStore();
   const { backgroundTheme } = useUIStore();
 
   // 根据主题动态获取图标 - 必须在条件返回之前调用
   const icons = useMemo(() => {
-    return getDesktopIcons(theme, illustrationThemeId);
-  }, [theme, illustrationThemeId]);
+    return getDesktopIcons(theme);
+  }, [theme]);
   
   // 插画主题使用专门的布局
   if (theme === "illustration") {

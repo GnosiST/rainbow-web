@@ -3,7 +3,6 @@
 import React from "react";
 import { useIllustrationThemeStore, type IllustrationThemeConfig } from "@/lib/stores/illustration-theme-store";
 import { useWindowStore, WindowType } from "@/lib/stores/window-store";
-import { useThemeStore } from "@/lib/stores/theme-store";
 import { WindowLayer } from "@/components/windows/WindowLayer";
 
 // 桌面图标配置 - 与 macOS/Windows 主题保持一致
@@ -85,7 +84,6 @@ export function IllustrationDesktop() {
 
 // 顶部菜单栏
 function IllustrationMenuBar({ config }: { config: IllustrationThemeConfig }) {
-  const { setTheme } = useThemeStore();
   const menuItems = ["File", "Edit", "View", "Window", "Help"];
   const now = new Date();
   const timeStr = now.toLocaleTimeString("en-US", { 

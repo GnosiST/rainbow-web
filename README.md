@@ -13,6 +13,7 @@ The project is built for designers, developers, and independent creators who wan
 - **AI portfolio guide**: `/api/ai/project-guide` can use OpenAI to recommend a visitor path through the project list.
 - **Graceful no-key mode**: the AI guide falls back to deterministic local recommendations when `OPENAI_API_KEY` is not configured.
 - **Self-hostable deployment**: Docker, Docker Compose, Nginx reverse proxy, and `/api/health` are included.
+- **Maintainer-ready automation**: GitHub Actions run lint, build, and dependency audit checks on pushes and pull requests.
 
 ## Why This Is Open Source
 
@@ -30,6 +31,7 @@ The current repository is early-stage and intentionally small. The focus is main
 - Zustand
 - OpenAI Responses API
 - Docker and Nginx
+- GitHub Actions
 
 ## Project Structure
 
@@ -86,6 +88,7 @@ npm run build:index  # Generate project and photo indexes
 npm run build        # Build for production
 npm run start        # Start the production server
 npm run lint         # Run Next.js lint checks
+npm audit --audit-level=moderate
 ```
 
 `npm run build` automatically runs `scripts/build-index.js` before building the Next.js app.
@@ -152,6 +155,7 @@ Please report security issues privately. See `SECURITY.md`.
 The current security focus areas are:
 
 - dependency updates
+- automated dependency auditing in CI
 - Docker and Nginx deployment hardening
 - safe handling of OpenAI API keys
 - clear fallback behavior when AI services are unavailable
@@ -162,7 +166,6 @@ The current security focus areas are:
 - Add project SEO landing pages at `/p/[slug]`.
 - Add image optimization workflows for real project assets.
 - Add automated checks for project MDX frontmatter.
-- Add GitHub Actions for build and lint validation.
 - Expand the AI Guide into optional project summaries and content QA helpers.
 - Improve accessibility coverage for window controls and mobile navigation.
 

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useUIStore, BackgroundTheme, FilterType, backgroundThemes } from "@/lib/stores/ui-store";
-import { useThemeStore, DesktopTheme } from "@/lib/stores/theme-store";
+import { useThemeStore } from "@/lib/stores/theme-store";
 import { 
   useIllustrationThemeStore, 
   illustrationBackgrounds, 

@@ -27,7 +27,7 @@ export function LoadingScreen({
 
     // 模拟加载进度
     const progressInterval = setInterval(() => {
-      setProgress(Math.min(progress + Math.random() * 15, 100));
+      setProgress(Math.min(useLoadingStore.getState().progress + Math.random() * 15, 100));
     }, 200);
 
     // 最小显示时间后完成加载
@@ -43,7 +43,7 @@ export function LoadingScreen({
       clearInterval(progressInterval);
       clearTimeout(minDurationTimer);
     };
-  }, []);
+  }, [hasShownInitial, setHasShownInitial, setLoading, setProgress, showOnRefresh]);
 
   // 检查用户是否偏好减少动画
   const prefersReducedMotion = typeof window !== "undefined" 

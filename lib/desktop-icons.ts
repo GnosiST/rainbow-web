@@ -1,7 +1,7 @@
 import React from "react";
 import { MacIcons } from "@/components/icons/MacIcons";
 import { SketchIcons } from "@/components/icons/SketchIcons";
-import type { DesktopTheme, IllustrationThemeId } from "@/lib/stores/theme-store";
+import type { DesktopTheme } from "@/lib/stores/theme-store";
 
 type WindowType = "about" | "projects" | "project" | "photos" | "slideshow" | "settings";
 
@@ -24,8 +24,7 @@ interface SketchIconProps {
 // 获取图标组件
 function getIconComponent(
   key: IconKey,
-  theme: DesktopTheme,
-  illustrationThemeId?: IllustrationThemeId
+  theme: DesktopTheme
 ): React.ReactNode {
   // 插画主题
   if (theme === "illustration") {
@@ -61,45 +60,44 @@ function getIconComponent(
 
 // 获取桌面图标配置
 export function getDesktopIcons(
-  theme: DesktopTheme,
-  illustrationThemeId?: IllustrationThemeId
+  theme: DesktopTheme
 ): DesktopIconConfig[] {
   return [
     { 
       type: "about", 
       label: "About", 
-      icon: getIconComponent("about", theme, illustrationThemeId) 
+      icon: getIconComponent("about", theme) 
     },
     { 
       type: "projects", 
       label: "Projects", 
-      icon: getIconComponent("folder", theme, illustrationThemeId) 
+      icon: getIconComponent("folder", theme) 
     },
     { 
       type: "photos", 
       label: "Photos", 
-      icon: getIconComponent("photos", theme, illustrationThemeId) 
+      icon: getIconComponent("photos", theme) 
     },
     { 
       type: "slideshow", 
       label: "Slideshow", 
-      icon: getIconComponent("slideshow", theme, illustrationThemeId) 
+      icon: getIconComponent("slideshow", theme) 
     },
     { 
       type: "settings", 
       label: "Settings", 
-      icon: getIconComponent("settings", theme, illustrationThemeId) 
+      icon: getIconComponent("settings", theme) 
     },
     { 
       type: "shop", 
       label: "Shop", 
-      icon: getIconComponent("shop", theme, illustrationThemeId),
+      icon: getIconComponent("shop", theme),
       href: "https://shop.example.com" 
     },
     { 
       type: "mail", 
       label: "Mail", 
-      icon: getIconComponent("mail", theme, illustrationThemeId),
+      icon: getIconComponent("mail", theme),
       href: "mailto:hello@example.com" 
     },
   ];
