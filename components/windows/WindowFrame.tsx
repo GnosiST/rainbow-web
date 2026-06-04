@@ -324,6 +324,7 @@ import { ProjectWindow } from "./content/ProjectWindow";
 import { SettingsWindow } from "./content/SettingsWindow";
 import { SlideshowWindow } from "./content/SlideshowWindow";
 import { PhotosWindow } from "./content/PhotosWindow";
+import { ImageStudioWindow } from "./content/ImageStudioWindow";
 
 function WindowContent({ type, data, isIllustration = false }: { type: string; data?: Record<string, unknown>; isIllustration?: boolean }) {
   // 根据类型渲染对应内容
@@ -338,6 +339,8 @@ function WindowContent({ type, data, isIllustration = false }: { type: string; d
       return <SlideshowWindow />;
     case "photos":
       return <PhotosWindow />;
+    case "image-studio":
+      return <ImageStudioWindow />;
     default:
       return (
         <div className={`w-full h-full flex items-center justify-center ${isIllustration ? "text-[#636E72]" : "text-white/50"}`}>

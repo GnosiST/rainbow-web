@@ -8,7 +8,8 @@ export type WindowType =
   | "project" 
   | "photos" 
   | "slideshow" 
-  | "settings";
+  | "settings"
+  | "image-studio";
 
 // 窗口位置和尺寸
 export interface Rect {
@@ -46,6 +47,7 @@ const WINDOW_TITLES: Record<WindowType, string> = {
   photos: "Photos",
   slideshow: "Slideshow",
   settings: "Settings",
+  "image-studio": "Image Studio",
 };
 
 interface WindowStore {

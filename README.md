@@ -11,6 +11,7 @@ The project is built for designers, developers, and independent creators who wan
 - **Content-driven projects**: project entries live in `content/projects` as MDX and are indexed at build time.
 - **Photo gallery data**: gallery entries are maintained in `content/photos.json` and exported to public data.
 - **AI portfolio guide**: `/api/ai/project-guide` can use OpenAI to recommend a visitor path through the project list.
+- **Image Studio**: `/api/ai/image-generate` can generate text-to-image previews for portfolio art direction.
 - **Graceful no-key mode**: the AI guide falls back to deterministic local recommendations when `OPENAI_API_KEY` is not configured.
 - **Self-hostable deployment**: Docker, Docker Compose, Nginx reverse proxy, and `/api/health` are included.
 - **Maintainer-ready automation**: GitHub Actions run lint, build, and dependency audit checks on pushes and pull requests.
@@ -76,9 +77,10 @@ http://localhost:3000
 ```text
 OPENAI_API_KEY       Optional. Enables generated AI portfolio guide responses.
 OPENAI_MODEL         Optional. Defaults to gpt-4.1-mini.
+OPENAI_IMAGE_MODEL   Optional. Defaults to gpt-image-2.
 ```
 
-If `OPENAI_API_KEY` is missing, the site still works. The AI Guide panel shows a local fallback recommendation instead of calling OpenAI.
+If `OPENAI_API_KEY` is missing, the site still works. The AI Guide panel shows a local fallback recommendation, and Image Studio shows a configuration message instead of calling OpenAI.
 
 ## Common Commands
 
@@ -116,6 +118,17 @@ Design constraints:
 - The route does not store visitor input.
 - The route is dynamic so production deployments read the current environment variables.
 - API failures return a normal fallback response instead of breaking the page.
+
+## Image Studio
+
+Image Studio is a maintainer-facing text-to-image preview tool. It requests `/api/ai/image-generate`, sends a prompt to OpenAI, and renders the returned image in the browser.
+
+Design constraints:
+
+- Generated images are preview-only and are not saved to disk.
+- The route does not accept file uploads.
+- The browser never receives `OPENAI_API_KEY`.
+- Missing configuration or API failures return user-facing error messages.
 
 ## Production Deployment
 

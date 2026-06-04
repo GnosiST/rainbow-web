@@ -11,6 +11,7 @@ const desktopIcons: { id: WindowType; label: string; icon: string }[] = [
   { id: "projects", label: "Projects", icon: "📁" },
   { id: "photos", label: "Photos", icon: "🖼️" },
   { id: "slideshow", label: "Slideshow", icon: "▶️" },
+  { id: "image-studio", label: "Image Studio", icon: "✨" },
   { id: "settings", label: "Settings", icon: "⚙️" },
 ];
 
@@ -20,6 +21,7 @@ const dockIcons: { id: WindowType | "external"; label: string; icon: string; hre
   { id: "projects", label: "Projects", icon: "📁" },
   { id: "photos", label: "Photos", icon: "🖼️" },
   { id: "slideshow", label: "Slideshow", icon: "▶️" },
+  { id: "image-studio", label: "Image Studio", icon: "✨" },
   { id: "settings", label: "Settings", icon: "⚙️" },
   { id: "external", label: "Shop", icon: "🛒", href: "#" },
   { id: "external", label: "Mail", icon: "✉️", href: "mailto:hello@example.com" },

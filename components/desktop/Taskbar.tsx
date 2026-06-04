@@ -16,11 +16,12 @@ const taskbarItems: TaskbarItem[] = [
   { type: "about", label: "关于", icon: <MacIcons.About /> },
   { type: "projects", label: "项目", icon: <MacIcons.Folder /> },
   { type: "photos", label: "照片", icon: <MacIcons.Photos /> },
+  { type: "image-studio", label: "图像工作室", icon: <MacIcons.Photos /> },
   { type: "settings", label: "设置", icon: <MacIcons.Settings /> },
 ];
 
 // 可以打开窗口的类型
-const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "settings"];
+const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "settings", "image-studio"];
 
 export function Taskbar() {
   const [time, setTime] = useState("");

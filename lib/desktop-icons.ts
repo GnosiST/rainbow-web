@@ -3,7 +3,7 @@ import { MacIcons } from "@/components/icons/MacIcons";
 import { SketchIcons } from "@/components/icons/SketchIcons";
 import type { DesktopTheme } from "@/lib/stores/theme-store";
 
-type WindowType = "about" | "projects" | "project" | "photos" | "slideshow" | "settings";
+type WindowType = "about" | "projects" | "project" | "photos" | "slideshow" | "settings" | "image-studio";
 
 export interface DesktopIconConfig {
   type: WindowType | "shop" | "mail";
@@ -13,7 +13,7 @@ export interface DesktopIconConfig {
 }
 
 // 图标映射类型
-type IconKey = "about" | "folder" | "photos" | "slideshow" | "settings" | "shop" | "mail";
+type IconKey = "about" | "folder" | "photos" | "slideshow" | "settings" | "image-studio" | "shop" | "mail";
 
 // Sketch 图标 Props 类型
 interface SketchIconProps {
@@ -34,6 +34,7 @@ function getIconComponent(
       photos: SketchIcons.Photos,
       slideshow: SketchIcons.Slideshow,
       settings: SketchIcons.Settings,
+      "image-studio": SketchIcons.Photos,
       shop: SketchIcons.Shop,
       mail: SketchIcons.Mail,
     };
@@ -51,6 +52,7 @@ function getIconComponent(
     photos: MacIcons.Photos,
     slideshow: MacIcons.Slideshow,
     settings: MacIcons.Settings,
+    "image-studio": MacIcons.Photos,
     shop: MacIcons.Shop,
     mail: MacIcons.Mail,
   };
@@ -88,6 +90,11 @@ export function getDesktopIcons(
       label: "Settings", 
       icon: getIconComponent("settings", theme) 
     },
+    {
+      type: "image-studio",
+      label: "Image Studio",
+      icon: getIconComponent("image-studio", theme)
+    },
     { 
       type: "shop", 
       label: "Shop", 
@@ -110,6 +117,7 @@ export const desktopIcons: DesktopIconConfig[] = [
   { type: "photos", label: "Photos", icon: React.createElement(MacIcons.Photos) },
   { type: "slideshow", label: "Slideshow", icon: React.createElement(MacIcons.Slideshow) },
   { type: "settings", label: "Settings", icon: React.createElement(MacIcons.Settings) },
+  { type: "image-studio", label: "Image Studio", icon: React.createElement(MacIcons.Photos) },
   { type: "shop", label: "Shop", icon: React.createElement(MacIcons.Shop), href: "https://shop.example.com" },
   { type: "mail", label: "Mail", icon: React.createElement(MacIcons.Mail), href: "mailto:hello@example.com" },
 ];

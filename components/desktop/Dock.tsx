@@ -18,6 +18,7 @@ const dockItems: DockItem[] = [
   { type: "projects", label: "Projects", icon: <MacIcons.Folder /> },
   { type: "photos", label: "Photos", icon: <MacIcons.Photos /> },
   { type: "slideshow", label: "Slideshow", icon: <MacIcons.Slideshow /> },
+  { type: "image-studio", label: "Image Studio", icon: <MacIcons.Photos /> },
   { type: "settings", label: "Settings", icon: <MacIcons.Settings /> },
   { type: "shop", label: "Shop", icon: <MacIcons.Shop />, href: "https://shop.example.com" },
   { type: "mail", label: "Mail", icon: <MacIcons.Mail />, href: "mailto:hello@example.com" },
@@ -30,7 +31,7 @@ const dockRightItems: DockItem[] = [
 ];
 
 // 可以打开窗口的类型
-const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "settings"];
+const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "settings", "image-studio"];
 
 export function Dock() {
   const { open } = useWindowStore();

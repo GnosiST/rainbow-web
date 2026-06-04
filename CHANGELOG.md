@@ -8,6 +8,8 @@ All notable changes to Rainbow Web are documented here.
 
 - Added an AI Guide panel to the Projects window.
 - Added `/api/ai/project-guide` with OpenAI-backed recommendations and fallback behavior when no API key is configured.
+- Added Image Studio for text-to-image previews without saving generated assets.
+- Added `/api/ai/image-generate` for server-side image generation requests.
 - Added `.env.example` for optional AI configuration.
 - Added MIT license, contribution guide, and security policy.
 - Added GitHub Actions CI for lint, build, and dependency audit checks.
@@ -24,3 +26,4 @@ All notable changes to Rainbow Web are documented here.
 
 - Reduced dependency audit findings to zero at the moderate-or-higher audit level.
 - Added server-only AI API key documentation and fallback behavior for failed AI calls.
+- Kept generated images preview-only to avoid upload, storage, and asset persistence risks.
