@@ -15,7 +15,7 @@ interface WindowFrameProps {
 }
 
 export function WindowFrame({ window }: WindowFrameProps) {
-  const { activeId, focus, close, toggleMax, updateRect } = useWindowStore();
+  const { activeId, focus, close, toggleMax, minimize, updateRect } = useWindowStore();
   const { theme } = useThemeStore();
   const isActive = activeId === window.id;
   
@@ -153,7 +153,7 @@ export function WindowFrame({ window }: WindowFrameProps) {
         <span className="text-[8px] text-black/60 opacity-0 group-hover:opacity-100">×</span>
       </button>
       <button
-        onClick={(e) => { e.stopPropagation(); /* minimize */ }}
+        onClick={(e) => { e.stopPropagation(); minimize(window.id); }}
         className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:bg-[#FEBC2E]/80 flex items-center justify-center group"
       >
         <span className="text-[8px] text-black/60 opacity-0 group-hover:opacity-100">−</span>
@@ -174,7 +174,7 @@ export function WindowFrame({ window }: WindowFrameProps) {
       onPointerDown={(e) => e.stopPropagation()}
     >
       <button
-        onClick={(e) => { e.stopPropagation(); /* minimize */ }}
+        onClick={(e) => { e.stopPropagation(); minimize(window.id); }}
         className="w-11 h-8 flex items-center justify-center hover:bg-white/10 transition-colors"
       >
         <span className="text-white/80 text-sm">─</span>
@@ -207,7 +207,7 @@ export function WindowFrame({ window }: WindowFrameProps) {
         <span className="text-[10px] text-[#E17055] font-bold opacity-0 group-hover:opacity-100">×</span>
       </button>
       <button
-        onClick={(e) => { e.stopPropagation(); /* minimize */ }}
+        onClick={(e) => { e.stopPropagation(); minimize(window.id); }}
         className="w-5 h-5 rounded-full border-2 border-[#636E72] bg-[#636E72]/20 hover:bg-[#636E72]/40 flex items-center justify-center group transition-colors"
       >
         <span className="text-[10px] text-[#636E72] font-bold opacity-0 group-hover:opacity-100">−</span>

@@ -26,7 +26,7 @@ const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "
 export function Taskbar() {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
-  const { open } = useWindowStore();
+  const { windows, open, focus, minimize, restore, activeId } = useWindowStore();
 
   useEffect(() => {
     const updateTime = () => {
@@ -43,10 +43,40 @@ export function Taskbar() {
     if (item.href) {
       window.open(item.href, "_blank");
     } else if (windowTypes.includes(item.type as WindowType)) {
-      open(item.type as WindowType);
+      // 查找该类型的窗口
+      const existingWindows = windows.filter((w) => w.type === item.type);
+      
+      if (existingWindows.length === 0) {
+        // 没有打开的窗口，打开新窗口
+        open(item.type as WindowType);
+      } else {
+        // 找到第一个该类型的窗口
+        const targetWindow = existingWindows[0];
+        
+        if (targetWindow.isMinimized) {
+          // 如果是最小化的，恢复它
+          restore(targetWindow.id);
+        } else if (targetWindow.id === activeId) {
+          // 如果是当前活动窗口，最小化它
+          minimize(targetWindow.id);
+        } else {
+          // 否则聚焦它
+          focus(targetWindow.id);
+        }
+      }
     } else {
       console.log(`Action not implemented: ${item.type}`);
     }
+  };
+
+  // 检查某个类型是否有打开的窗口
+  const getOpenWindows = (type: WindowType) => {
+    return windows.filter((w) => w.type === type);
+  };
+
+  // 检查窗口是否是活动窗口
+  const isActiveWindow = (windowId: string) => {
+    return windowId === activeId;
   };
 
   return (
@@ -70,17 +100,30 @@ export function Taskbar() {
         {/* 分隔线 */}
         <div className="w-px h-6 bg-white/20 mx-1" />
 
-        {/* 应用图标 */}
-        {taskbarItems.map((item) => (
-          <button
-            key={item.type}
-            onClick={() => handleClick(item)}
-            className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded transition-colors group relative"
-            title={item.label}
-          >
-            <div className="w-6 h-6">{item.icon}</div>
-          </button>
-        ))}
+        {/* 应用图标 - 显示所有打开的窗口 */}
+        {taskbarItems.map((item) => {
+          const openWindows = getOpenWindows(item.type as WindowType);
+          const hasOpenWindows = openWindows.length > 0;
+          
+          return (
+            <button
+              key={item.type}
+              onClick={() => handleClick(item)}
+              className={`w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded transition-colors group relative ${
+                hasOpenWindows ? "bg-white/5" : ""
+              }`}
+              title={item.label}
+            >
+              <div className="w-6 h-6">{item.icon}</div>
+              {/* 运行指示条 */}
+              {hasOpenWindows && (
+                <div className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full ${
+                  openWindows.some((w) => w.isMinimized) ? "bg-white/30" : "bg-white/60"
+                }`} />
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* 右侧：系统托盘 */}

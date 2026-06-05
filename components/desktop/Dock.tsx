@@ -34,16 +34,46 @@ const dockRightItems: DockItem[] = [
 const windowTypes: WindowType[] = ["about", "projects", "photos", "slideshow", "settings", "image-studio"];
 
 export function Dock() {
-  const { open } = useWindowStore();
+  const { windows, open, focus, minimize, restore } = useWindowStore();
 
   const handleClick = (item: DockItem) => {
     if (item.href) {
       window.open(item.href, '_blank');
     } else if (windowTypes.includes(item.type as WindowType)) {
-      open(item.type as WindowType);
+      // 查找该类型的窗口
+      const existingWindows = windows.filter((w) => w.type === item.type);
+      
+      if (existingWindows.length === 0) {
+        // 没有打开的窗口，打开新窗口
+        open(item.type as WindowType);
+      } else {
+        // 找到第一个该类型的窗口
+        const targetWindow = existingWindows[0];
+        
+        if (targetWindow.isMinimized) {
+          // 如果是最小化的，恢复它
+          restore(targetWindow.id);
+        } else if (targetWindow.id === useWindowStore.getState().activeId) {
+          // 如果是当前活动窗口，最小化它
+          minimize(targetWindow.id);
+        } else {
+          // 否则聚焦它
+          focus(targetWindow.id);
+        }
+      }
     } else {
       console.log(`Action not implemented: ${item.type}`);
     }
+  };
+
+  // 检查某个类型是否有打开的窗口（包括最小化的）
+  const hasOpenWindow = (type: WindowType) => {
+    return windows.some((w) => w.type === type);
+  };
+
+  // 检查某个类型是否有最小化的窗口
+  const hasMinimizedWindow = (type: WindowType) => {
+    return windows.some((w) => w.type === type && w.isMinimized);
   };
 
   return (
@@ -51,7 +81,13 @@ export function Dock() {
       <div className="flex items-end gap-1 px-2 py-1 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30 shadow-2xl">
         {/* 主要应用 */}
         {dockItems.map((item) => (
-          <DockIcon key={item.type} item={item} onClick={() => handleClick(item)} />
+          <DockIcon 
+            key={item.type} 
+            item={item} 
+            onClick={() => handleClick(item)}
+            hasOpenWindow={windowTypes.includes(item.type as WindowType) && hasOpenWindow(item.type as WindowType)}
+            hasMinimizedWindow={windowTypes.includes(item.type as WindowType) && hasMinimizedWindow(item.type as WindowType)}
+          />
         ))}
         
         {/* 分隔线 */}
@@ -66,7 +102,17 @@ export function Dock() {
   );
 }
 
-function DockIcon({ item, onClick }: { item: DockItem; onClick: () => void }) {
+function DockIcon({ 
+  item, 
+  onClick, 
+  hasOpenWindow = false,
+  hasMinimizedWindow = false
+}: { 
+  item: DockItem; 
+  onClick: () => void;
+  hasOpenWindow?: boolean;
+  hasMinimizedWindow?: boolean;
+}) {
   return (
     <div className="relative group">
       {/* Tooltip */}
@@ -82,8 +128,12 @@ function DockIcon({ item, onClick }: { item: DockItem; onClick: () => void }) {
         {item.icon}
       </button>
       
-      {/* 运行指示点（可选） */}
-      {/* <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-white/60 rounded-full" /> */}
+      {/* 运行指示点 - 显示在打开的窗口下方 */}
+      {hasOpenWindow && (
+        <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+          hasMinimizedWindow ? "bg-white/40" : "bg-white/60"
+        }`} />
+      )}
     </div>
   );
 }

@@ -28,6 +28,7 @@ export interface WindowState {
   prevRect?: Rect; // 最大化前的位置，用于还原
   z: number;
   isMax: boolean;
+  isMinimized: boolean; // 最小化状态
   data?: Record<string, unknown>; // 额外数据，如 project id
 }
 
@@ -60,6 +61,8 @@ interface WindowStore {
   close: (id: string) => void;
   focus: (id: string) => void;
   toggleMax: (id: string) => void;
+  minimize: (id: string) => void;
+  restore: (id: string) => void;
   updateRect: (id: string, rect: Partial<Rect>) => void;
   setTitle: (id: string, title: string) => void;
 }
@@ -88,6 +91,7 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
       rect,
       z: zCounter,
       isMax: false,
+      isMinimized: false,
       data,
     };
 
@@ -184,6 +188,48 @@ export const useWindowStore = create<WindowStore>((set, get) => ({
           };
         }
       }),
+    });
+  },
+
+  minimize: (id) => {
+    const { windows, activeId } = get();
+    
+    // 找到被最小化的窗口
+    const minimizedWindow = windows.find((w) => w.id === id);
+    if (!minimizedWindow) return;
+    
+    // 计算新的活动窗口
+    let newActiveId = activeId;
+    if (activeId === id) {
+      // 如果最小化的是当前活动窗口，找一个可见的窗口
+      const visibleWindows = windows.filter((w) => w.id !== id && !w.isMinimized);
+      if (visibleWindows.length > 0) {
+        const topWindow = visibleWindows.reduce((prev, curr) => 
+          curr.z > prev.z ? curr : prev
+        );
+        newActiveId = topWindow.id;
+      } else {
+        newActiveId = null;
+      }
+    }
+
+    set({
+      windows: windows.map((w) =>
+        w.id === id ? { ...w, isMinimized: true } : w
+      ),
+      activeId: newActiveId,
+    });
+  },
+
+  restore: (id) => {
+    const { windows, zCounter } = get();
+    
+    set({
+      windows: windows.map((w) =>
+        w.id === id ? { ...w, isMinimized: false, z: zCounter } : w
+      ),
+      activeId: id,
+      zCounter: zCounter + 1,
     });
   },
 

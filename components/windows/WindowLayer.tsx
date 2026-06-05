@@ -11,9 +11,11 @@ export function WindowLayer() {
   return (
     <div className="fixed inset-0 pointer-events-none z-10">
       <AnimatePresence>
-        {windows.map((window) => (
-          <WindowFrame key={window.id} window={window} />
-        ))}
+        {windows
+          .filter((window) => !window.isMinimized)
+          .map((window) => (
+            <WindowFrame key={window.id} window={window} />
+          ))}
       </AnimatePresence>
     </div>
   );
